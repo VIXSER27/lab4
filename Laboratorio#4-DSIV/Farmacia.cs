@@ -17,9 +17,6 @@ namespace Laboratorio_4_DSIV
             InitializeComponent();
         }
 
-        private void aDMINToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
