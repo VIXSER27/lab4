@@ -13,11 +13,19 @@ namespace Laboratorio_4_DSIV
 {
     public partial class Farmacia : Form
     {
+        private List<ItemCarrito> carrito = new List<ItemCarrito>();
+
         public Farmacia()
         {
             InitializeComponent();
             CargarProductos();
         }
+
+        public void RefrescarCatalogo()
+        {
+            CargarProductos();
+        }
+
         private void CargarProductos()
         {
             flowLayoutPanelCatalogo.Controls.Clear();
@@ -28,16 +36,16 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string query = "SELECT nombre, precio, cantidad, imagen FROM medicamentos WHERE cantidad > 0";
+                    string query = "SELECT id, nombre, imagen, cantidad_disponible, precio_unitario " +
+                                   "FROM medicamentos WHERE cantidad_disponible > 0";
+
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
-                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                Panel panel = CrearPanelProducto(reader);
-                                flowLayoutPanelCatalogo.Controls.Add(panel);
-                            }
+                            Panel panel = CrearPanelProducto(reader);
+                            flowLayoutPanelCatalogo.Controls.Add(panel);
                         }
                     }
                 }
@@ -50,94 +58,142 @@ namespace Laboratorio_4_DSIV
 
         private Panel CrearPanelProducto(NpgsqlDataReader reader)
         {
-            // Datos del producto
+            int id = Convert.ToInt32(reader["id"]);
             string nombre = reader["nombre"].ToString();
-            decimal precio = Convert.ToDecimal(reader["precio"]);
-            int cantidad = Convert.ToInt32(reader["cantidad"]);
-            string imagenPath = reader["imagen"].ToString(); // Ruta de la imagen guardada
+            decimal precio = Convert.ToDecimal(reader["precio_unitario"]);
+            int cantidad = Convert.ToInt32(reader["cantidad_disponible"]);
+            string imagenPath = reader["imagen"].ToString();
 
-            // Panel del producto
-            Panel panel = new Panel();
-            panel.Width = 200;
-            panel.Height = 270;
-            panel.Margin = new Padding(10);
-            panel.BorderStyle = BorderStyle.FixedSingle;
-            panel.BackColor = Color.White;
+            Panel card = new Panel();
+            card.Width = 220;
+            card.Height = 310;
+            card.Margin = new Padding(10);
+            card.BackColor = Color.White;
+            card.Padding = new Padding(8);
 
-            // Imagen del producto
+            // Sombra suave
+            card.Paint += (s, e) =>
+            {
+                ControlPaint.DrawBorder(e.Graphics, card.ClientRectangle,
+                    Color.LightGray, 2, ButtonBorderStyle.Solid,
+                    Color.LightGray, 2, ButtonBorderStyle.Solid,
+                    Color.LightGray, 2, ButtonBorderStyle.Solid,
+                    Color.LightGray, 2, ButtonBorderStyle.Solid);
+            };
+
+            // Hover del panel
+            card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(245, 245, 245);
+            card.MouseLeave += (s, e) => card.BackColor = Color.White;
+
+            // Imagen
             PictureBox pic = new PictureBox();
+            pic.Width = 200;
+            pic.Height = 150;
+            pic.Top = 5;
+            pic.Left = 5;
+            pic.SizeMode = PictureBoxSizeMode.Zoom;
+            pic.BackColor = Color.FromArgb(250, 250, 250);
+
             try
             {
-                pic.Image = Image.FromFile(imagenPath);
+                if (!string.IsNullOrWhiteSpace(imagenPath))
+                    pic.Image = Image.FromFile(imagenPath);
             }
             catch
             {
                 pic.Image = null;
             }
-            pic.SizeMode = PictureBoxSizeMode.Zoom;
-            pic.Width = 180;
-            pic.Height = 120;
-            pic.Top = 10;
-            pic.Left = 10;
-            panel.Controls.Add(pic);
 
-            // Nombre del producto
+            card.Controls.Add(pic);
+
+            // Nombre
             Label lblNombre = new Label();
             lblNombre.Text = nombre;
-            lblNombre.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            lblNombre.Top = 140;
-            lblNombre.Left = 10;
-            lblNombre.Width = 180;
+            lblNombre.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            lblNombre.Width = 200;
+            lblNombre.Top = 165;
+            lblNombre.Left = 5;
             lblNombre.TextAlign = ContentAlignment.MiddleCenter;
-            panel.Controls.Add(lblNombre);
+            card.Controls.Add(lblNombre);
 
             // Precio
             Label lblPrecio = new Label();
-            lblPrecio.Text = $"Precio: ${precio:F2}";
-            lblPrecio.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+            lblPrecio.Text = $"${precio:F2}";
+            lblPrecio.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             lblPrecio.ForeColor = Color.FromArgb(0, 120, 215);
-            lblPrecio.Top = 165;
-            lblPrecio.Left = 10;
-            lblPrecio.Width = 180;
+            lblPrecio.Width = 200;
+            lblPrecio.Top = 190;
+            lblPrecio.Left = 5;
             lblPrecio.TextAlign = ContentAlignment.MiddleCenter;
-            panel.Controls.Add(lblPrecio);
+            card.Controls.Add(lblPrecio);
 
-            // Selector de cantidad
+            // Stock
+            Label lblStock = new Label();
+            lblStock.Text = $"Stock disponible: {cantidad}";
+            lblStock.Font = new Font("Segoe UI", 9);
+            lblStock.Width = 200;
+            lblStock.Top = 210;
+            lblStock.Left = 5;
+            lblStock.TextAlign = ContentAlignment.MiddleCenter;
+            lblStock.ForeColor = Color.Gray;
+            card.Controls.Add(lblStock);
+
+            // Selector cantidad
             NumericUpDown nudCantidad = new NumericUpDown();
             nudCantidad.Minimum = 1;
             nudCantidad.Maximum = cantidad;
-            nudCantidad.Top = 190;
-            nudCantidad.Left = 60;
-            nudCantidad.Width = 80;
-            panel.Controls.Add(nudCantidad);
+            nudCantidad.Width = 70;
+            nudCantidad.Top = 235;
+            nudCantidad.Left = 75;
+            card.Controls.Add(nudCantidad);
 
             // Botón agregar
-            Button btnAgregar = new Button();
-            btnAgregar.Text = "Agregar";
-            btnAgregar.BackColor = Color.FromArgb(40, 167, 69);
-            btnAgregar.ForeColor = Color.White;
-            btnAgregar.FlatStyle = FlatStyle.Flat;
-            btnAgregar.FlatAppearance.BorderSize = 0;
-            btnAgregar.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            btnAgregar.Top = 225;
-            btnAgregar.Left = 25;
-            btnAgregar.Width = 150;
+            Button btn = new Button();
+            btn.Text = "Agregar";
+            btn.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            btn.Width = 180;
+            btn.Height = 32;
+            btn.Top = 270;
+            btn.Left = 20;
+            btn.BackColor = Color.FromArgb(0, 150, 90);
+            btn.ForeColor = Color.White;
+            btn.FlatStyle = FlatStyle.Flat;
+            btn.FlatAppearance.BorderSize = 0;
 
-            // Efecto hover
-            btnAgregar.MouseEnter += (s, e) => btnAgregar.BackColor = Color.FromArgb(30, 140, 60);
-            btnAgregar.MouseLeave += (s, e) => btnAgregar.BackColor = Color.FromArgb(40, 167, 69);
+            // Hover botón
+            btn.MouseEnter += (s, e) => btn.BackColor = Color.FromArgb(0, 120, 70);
+            btn.MouseLeave += (s, e) => btn.BackColor = Color.FromArgb(0, 150, 90);
 
-            // Evento del botón
-            btnAgregar.Click += (s, e) =>
+            btn.Click += (s, e) =>
             {
-                int cantidadSeleccionada = (int)nudCantidad.Value;
-                MessageBox.Show($"Agregado {cantidadSeleccionada}x {nombre} al carrito ✅", "Carrito");
+                carrito.Add(new ItemCarrito()
+                {
+                    Id = id,
+                    Nombre = nombre,
+                    Cantidad = (int)nudCantidad.Value,
+                    PrecioUnitario = precio
+                });
+
+                MessageBox.Show($"{nudCantidad.Value}x {nombre} agregado al carrito.");
             };
 
-            panel.Controls.Add(btnAgregar);
+            card.Controls.Add(btn);
 
-            return panel;
+            return card;
         }
 
+        private void btnCarrito_Click(object sender, EventArgs e)
+        {
+            Carrito frm = new Carrito(carrito, this);
+            frm.ShowDialog();
+        }
+
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Login l = new Login();
+            l.ShowDialog();
+
+        }
     }
 }
