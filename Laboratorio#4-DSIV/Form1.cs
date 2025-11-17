@@ -44,5 +44,10 @@ namespace Laboratorio_4_DSIV
                 }
             }
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
