@@ -1,26 +1,20 @@
-﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Npgsql;
 
 namespace Laboratorio_4_DSIV
 {
-    public partial class Registro : Form
+    public partial class FormConsultarPedidos : Form
     {
-        string connectionString = "TU CADENA SQL AQUI";
+        // Usamos tu clase de conexión
+        Class1 conexion = new Class1();
 
-        public Registro()
+        public FormConsultarPedidos()
         {
             InitializeComponent();
         }
+
         private void FormConsultarPedidos_Load(object sender, EventArgs e)
         {
             CargarPedidos();
@@ -28,35 +22,46 @@ namespace Laboratorio_4_DSIV
 
         private void CargarPedidos()
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            try
             {
-                con.Open();
+                conexion.conectar();
 
                 string query = @"
-        SELECT 
-            p.PedidoID,
-            p.ClienteNombre,
-            p.FechaPedido,
-            m.Nombre AS Medicamento,
-            d.Cantidad,
-            (d.Cantidad * d.PrecioUnitario) AS Subtotal,
-            p.Total
-        FROM Pedidos p
-        INNER JOIN PedidoDetalle d ON p.PedidoID = d.PedidoID
-        INNER JOIN Medicamentos m ON d.MedicamentoID = m.ID
-        ORDER BY p.PedidoID DESC;";
+                    SELECT 
+                        p.id_pedido,
+                        c.nombre AS cliente,
+                        m.nombre AS medicamento,
+                        d.cantidad,
+                        d.total,
+                        p.fecha
+                    FROM pedidos p
+                    INNER JOIN pedido_detalle d ON p.id_pedido = d.id_pedido
+                    INNER JOIN clientes c ON c.id_cliente = p.id_cliente
+                    INNER JOIN medicamentos m ON m.id_medicamento = d.id_medicamento
+                    ORDER BY p.fecha DESC;
+                ";
 
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conexion.getMiConexion());
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
                 dgvPedidos.DataSource = dt;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar pedidos: " + ex.Message);
+            }
+            finally
+            {
+                conexion.cerrarConexion();
+            }
         }
 
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Administrar f = new Administrar(); // Tu formulario principal del farmacéutico
+            f.Show();
+        }
     }
-
 }
-
-
-
