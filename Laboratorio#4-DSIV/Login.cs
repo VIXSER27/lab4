@@ -21,55 +21,81 @@ namespace Laboratorio_4_DSIV
             InitializeComponent();
         }
 
-       
+
 
         private void BtmAcceder_Click(object sender, EventArgs e)
         {
             String usuario = txtUsuario.Text;
             String contraseña = txtContraseña.Text;
 
-            using (SqlConnection conn = new SqlConnection())
+            if (usuario.Length != "" || contraseña.Length != "")
             {
-                conn.Open();
-                String query = "SELECT COUNT(1) FROM Usuarios WHERE Usuario=@Usuario AND Contraseña=@Contraseña";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Usuario", usuario);
-                cmd.Parameters.AddWithValue("@Contraseña", contraseña);
+                MessageBox.Show("Ingrese los campos ");
+                return;
+            }
 
-                var tipoUsuario = cmd.ExecuteScalar();
-                if (tipoUsuario != null)
+            using (Class1 conexion = new Class1())
+            {
+                try
                 {
-                    String tipo = tipoUsuario.ToString();
+                    conexion.conectar();
+                    String query = "SELECT rol FROM usuarios WHERE usuario= @usuario AND contraseña=@contraseña";
 
-                    if (tipo == "Farmaceutico")
+                }
+
+
+            using (NpgsqlCommand cmd = new NpgsqlConnection(Query, conexion.getMiconexion()))
+                {
+
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+                    cmd.Parameters.AddWithValue("@contraseña", contraseña);
+
+                    var resulatdo = cmd.ExecuteScalar();
+
+                    if (resulatdo == null)
                     {
-                        
-                        this.Hide();
-                        MessageBox.Show("Bienvenido Administrador");
-                        
-                    }
-                    else if (tipo == "Cliente")
-                    {
-                       
-                        this.Hide();
-                        MessageBox.Show("Bienvenido Usuario");
-                        
+                        MessageBox.Show("Usuario o contraseña incorrectos");
+                        return;
                     }
                     else
                     {
-                        MessageBox.Show("Credenciales incorrectas");
+
+                        string rol = resultado.ToString().ToLower;
+                        switch (rol)
+                        {
+                            case "admin":
+                                MessageBox.Show("Bienvenido Administrador");
+                                Administrar administrar = new Administrar();
+                                administrar.WindowState = FormWindowState.Maximized;
+                                administrar.Show();
+                                break;
+                            case "user":
+                                MessageBox.Show("Bienvenido Usuario");
+
+                                Farmacia farmacia = new Farmacia();
+                                farmacia.WindowState = FormWindowState.Maximized;
+                                farmacia.Show();
+                                break;
+                            default:
+                                MessageBox.Show("Rol no reconocido");
+                                break;
+                        }
+                        this.Hide();
                     }
 
+                }
+                  catch (Exception ex)
+                {
+                    MessageBox.Show("Error de conexion a la base de datos: " + ex.Message);
+                    return;
                 }
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-         
-          
-
-        }
+    }
+}
+           
+      
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -86,6 +112,14 @@ namespace Laboratorio_4_DSIV
                 pictureBox1.Image = Properties.Resources.show; 
             }
 
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        { 
+            CrearCuenta CrearCuenta = new CrearCuenta();
+            CrearCuenta.WindowState = FormWindowState.Maximized;
+            CrearCuenta.Show();
+            this.Hide();
         }
     }
 }

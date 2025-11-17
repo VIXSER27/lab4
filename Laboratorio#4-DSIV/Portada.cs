@@ -16,5 +16,12 @@ namespace Laboratorio_4_DSIV
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form1 form1= new Form1 ();
+            form1.WindowState = FormWindowState.Maximized;
+            form1.Show();
+        }
     }
 }

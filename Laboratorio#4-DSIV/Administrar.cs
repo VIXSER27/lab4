@@ -272,5 +272,12 @@ namespace Laboratorio_4_DSIV
             this.Hide();
         }
 
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            Consultar f = new Consultar();
+            f.Show();
+            this.Hide();
+        }
+
     }
 }
