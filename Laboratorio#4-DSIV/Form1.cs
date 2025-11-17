@@ -29,9 +29,9 @@ namespace Laboratorio_4_DSIV
                     if (class1.getMiConexion().State == ConnectionState.Open)
                     {
                         this.Hide();
-                        Farmacia farmacia = new Farmacia();//Aca cambias el nombre del formulario que se va a iniciar cuando se conecte a la base de datos
-                       farmacia.WindowState = FormWindowState.Maximized;
-                        farmacia.Show();
+                        Login login = new Login ();//Aca cambias el nombre del formulario que se va a iniciar cuando se conecte a la base de datos
+                       login.WindowState = FormWindowState.Maximized;
+                        login.Show();
                     }
                     else
                     {
