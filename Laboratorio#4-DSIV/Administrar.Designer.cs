@@ -46,6 +46,7 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dgvInventario = new System.Windows.Forms.DataGridView();
             this.btnVolverLogin = new System.Windows.Forms.Button();
+            this.btnConsultar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPrecio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventario)).BeginInit();
@@ -211,7 +212,7 @@
             // 
             // btnVolverLogin
             // 
-            this.btnVolverLogin.Location = new System.Drawing.Point(296, 405);
+            this.btnVolverLogin.Location = new System.Drawing.Point(145, 405);
             this.btnVolverLogin.Name = "btnVolverLogin";
             this.btnVolverLogin.Size = new System.Drawing.Size(212, 33);
             this.btnVolverLogin.TabIndex = 22;
@@ -219,12 +220,23 @@
             this.btnVolverLogin.UseVisualStyleBackColor = true;
             this.btnVolverLogin.Click += new System.EventHandler(this.btnVolverLogin_Click);
             // 
+            // btnConsultar
+            // 
+            this.btnConsultar.Location = new System.Drawing.Point(449, 405);
+            this.btnConsultar.Name = "btnConsultar";
+            this.btnConsultar.Size = new System.Drawing.Size(165, 33);
+            this.btnConsultar.TabIndex = 23;
+            this.btnConsultar.Text = "Consultar";
+            this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
+            // 
             // Administrar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Tan;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnVolverLogin);
             this.Controls.Add(this.dgvInventario);
             this.Controls.Add(this.btnLimpiar);
@@ -273,5 +285,6 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridView dgvInventario;
         private System.Windows.Forms.Button btnVolverLogin;
+        private System.Windows.Forms.Button btnConsultar;
     }
 }
