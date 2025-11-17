@@ -1,6 +1,6 @@
 ﻿namespace Laboratorio_4_DSIV
 {
-    partial class Registro
+    partial class FormConsultarPedidos
     {
         /// <summary>
         /// Required designer variable.
@@ -42,6 +42,7 @@
             this.dgvPedidos.RowTemplate.Height = 24;
             this.dgvPedidos.Size = new System.Drawing.Size(654, 220);
             this.dgvPedidos.TabIndex = 0;
+            this.dgvPedidos.Click += new System.EventHandler(this.FormConsultarPedidos_Load);
             // 
             // btnVolver
             // 
@@ -51,8 +52,9 @@
             this.btnVolver.TabIndex = 1;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // Registro
+            // FormConsultarPedidos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -60,7 +62,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvPedidos);
-            this.Name = "Registro";
+            this.Name = "FormConsultarPedidos";
             this.Text = "Registro";
             ((System.ComponentModel.ISupportInitialize)(this.dgvPedidos)).EndInit();
             this.ResumeLayout(false);
