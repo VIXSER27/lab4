@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -97,11 +98,34 @@ namespace Laboratorio_4_DSIV
             try
             {
                 if (!string.IsNullOrWhiteSpace(imagenPath))
-                    pic.Image = Image.FromFile(imagenPath);
+                {
+                    // Construir ruta completa a la carpeta Img del proyecto
+                    string rutaImagen = Path.Combine(Application.StartupPath, "Img", imagenPath);
+
+                    if (File.Exists(rutaImagen))
+                    {
+                        pic.Image = Image.FromFile(rutaImagen);
+                    }
+                    else
+                    {
+                        // Imagen por defecto si no se encuentra
+                        pic.Image = Image.FromFile(
+                            Path.Combine(Application.StartupPath, "Img", "imagen_no_disponible.png")
+                        );
+                    }
+                }
+                else
+                {
+                    pic.Image = Image.FromFile(
+                        Path.Combine(Application.StartupPath, "Img", "imagen_no_disponible.png")
+                    );
+                }
             }
             catch
             {
-                pic.Image = null;
+                pic.Image = Image.FromFile(
+                    Path.Combine(Application.StartupPath, "Img", "imagen_no_disponible.png")
+                );
             }
 
             card.Controls.Add(pic);
