@@ -80,7 +80,6 @@
             // 
             this.txtNuevaContraseña.Location = new System.Drawing.Point(33, 199);
             this.txtNuevaContraseña.Name = "txtNuevaContraseña";
-            this.txtNuevaContraseña.ReadOnly = true;
             this.txtNuevaContraseña.Size = new System.Drawing.Size(168, 20);
             this.txtNuevaContraseña.TabIndex = 6;
             // 
@@ -88,7 +87,6 @@
             // 
             this.txtNuevoUsuario.Location = new System.Drawing.Point(33, 117);
             this.txtNuevoUsuario.Name = "txtNuevoUsuario";
-            this.txtNuevoUsuario.ReadOnly = true;
             this.txtNuevoUsuario.Size = new System.Drawing.Size(168, 20);
             this.txtNuevoUsuario.TabIndex = 5;
             this.txtNuevoUsuario.Click += new System.EventHandler(this.btnRegistrar_Click);
@@ -129,7 +127,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "CrearCuenta";
             this.Text = "CrearCuenta";
             this.groupBox1.ResumeLayout(false);
