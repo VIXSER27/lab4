@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Npgsql;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace Laboratorio_4_DSIV
 {
@@ -45,7 +46,7 @@ namespace Laboratorio_4_DSIV
 
 
             using (NpgsqlCommand cmd = new NpgsqlConnection(Query, conexion.getMiconexion()))
-                {
+            {
 
                     cmd.Parameters.AddWithValue("@usuario", usuario);
                     cmd.Parameters.AddWithValue("@contraseña", contraseña);
@@ -83,7 +84,7 @@ namespace Laboratorio_4_DSIV
                         this.Hide();
                     }
 
-                }
+            }
                   catch (Exception ex)
                 {
                     MessageBox.Show("Error de conexion a la base de datos: " + ex.Message);
@@ -92,10 +93,10 @@ namespace Laboratorio_4_DSIV
             }
         }
 
-    }
-}
-           
-      
+
+
+
+
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -109,13 +110,13 @@ namespace Laboratorio_4_DSIV
             else
             {
                 txtContraseña.PasswordChar = '*';
-                pictureBox1.Image = Properties.Resources.show; 
+                pictureBox1.Image = Properties.Resources.show;
             }
 
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        { 
+        {
             CrearCuenta CrearCuenta = new CrearCuenta();
             CrearCuenta.WindowState = FormWindowState.Maximized;
             CrearCuenta.Show();

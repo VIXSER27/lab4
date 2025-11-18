@@ -147,6 +147,9 @@
     <Compile Include="Registro.Designer.cs">
       <DependentUpon>Registro.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CrearCuenta.resx">
+      <DependentUpon>CrearCuenta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Farmacia.resx">
       <DependentUpon>Farmacia.cs</DependentUpon>
     </EmbeddedResource>
