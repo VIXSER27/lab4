@@ -117,7 +117,7 @@ namespace Laboratorio_4_DSIV
 
                 nudCantidad.Value = cantidad;
 
-                
+
                 nudPrecio.Value = Convert.ToDecimal(dgvInventario.Rows[e.RowIndex].Cells[4].Value);
             }
         }
@@ -173,7 +173,7 @@ namespace Laboratorio_4_DSIV
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            
+
             if (dgvInventario.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione un medicamento para eliminar.");
@@ -183,7 +183,7 @@ namespace Laboratorio_4_DSIV
             int id;
             try
             {
-               
+
                 id = Convert.ToInt32(dgvInventario.SelectedRows[0].Cells["id"].Value);
             }
             catch (Exception)
@@ -192,7 +192,7 @@ namespace Laboratorio_4_DSIV
                 return;
             }
 
-            
+
             DialogResult confirm = MessageBox.Show(
                "¿Está seguro que desea eliminar este medicamento?",
                  "Confirmar eliminación",
@@ -215,7 +215,7 @@ namespace Laboratorio_4_DSIV
                     }
 
                     MessageBox.Show("Medicamento eliminado correctamente.");
-                    
+
                     CargarInventario();
                 }
                 catch (Exception ex)
@@ -267,17 +267,17 @@ namespace Laboratorio_4_DSIV
         }
         private void btnVolverLogin_Click(object sender, EventArgs e)
         {
-            Form1 login = new Form1(); 
+            Form1 login = new Form1();
             login.Show();
             this.Hide();
         }
 
         private void btnConsultar_Click(object sender, EventArgs e)
         {
-            Consultar f = new Consultar();
+            FormConsultarPedidos f = new FormConsultarPedidos();
             f.Show();
             this.Hide();
-        }
 
+        }
     }
 }
