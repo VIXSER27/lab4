@@ -27,7 +27,6 @@ namespace Laboratorio_4_DSIV
             string usuario = txtUsuario.Text.Trim();
             string contraseña = txtContraseña.Text.Trim();
 
-           
             if (usuario == "" || contraseña == "")
             {
                 MessageBox.Show("Ingrese todos los campos.");
@@ -40,48 +39,62 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string query =
-                        "SELECT rol FROM usuarios WHERE usuario = @usuario AND contrasena = @contrasena";
+                    // 1️⃣ VALIDAMOS SI EL USUARIO Y CONTRASEÑA EXISTEN
+                    string queryLogin =
+                        "SELECT id FROM usuarios WHERE usuario = @usuario AND contrasena = @contrasena";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
+                    int usuarioId = -1;
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryLogin, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", usuario);
                         cmd.Parameters.AddWithValue("@contrasena", contraseña);
 
-                        object resultado = cmd.ExecuteScalar();
-
-                        if (resultado == null)
-                        {
-                            MessageBox.Show("Usuario o contraseña incorrectos.");
-                            return;
-                        }
-
-                        string rol = resultado.ToString().ToLower();
-
-                        switch (rol)
-                        {
-                            case "admin":
-                                MessageBox.Show("Bienvenido Administrador");
-                                Administrar administrar = new Administrar();
-                                administrar.WindowState = FormWindowState.Maximized;
-                                administrar.Show();
-                                break;
-
-                            case "user":
-                            case "cliente":
-                                MessageBox.Show("Bienvenido Usuario");
-                                Farmacia farmacia = new Farmacia();
-                                farmacia.WindowState = FormWindowState.Maximized;
-                                farmacia.Show();
-                                break;
-
-                            default:
-                                MessageBox.Show("Rol no reconocido.");
-                                return;
-                        }
-
-                        this.Hide();
+                        object res = cmd.ExecuteScalar();
+                        usuarioId = res == null ? -1 : Convert.ToInt32(res);
                     }
+
+                    if (usuarioId == -1)
+                    {
+                        MessageBox.Show("Usuario o contraseña incorrectos.");
+                        return;
+                    }
+
+                    // 2️⃣ AHORA BUSCAMOS EL ROL POR SEPARADO
+                    string queryRol = "SELECT rol FROM usuarios WHERE id = @id";
+
+                    string rol = "";
+
+                    using (NpgsqlCommand cmdRol = new NpgsqlCommand(queryRol, conexion.getMiConexion()))
+                    {
+                        cmdRol.Parameters.AddWithValue("@id", usuarioId);
+                        rol = cmdRol.ExecuteScalar().ToString().ToLower();
+                    }
+
+                    // 3️⃣ REDIRECCIÓN SEGÚN ROL
+                    switch (rol)
+                    {
+                        case "admin":
+                            MessageBox.Show("Bienvenido Administrador");
+                            Administrar admin = new Administrar();
+                            admin.WindowState = FormWindowState.Maximized;
+                            admin.Show();
+                            break;
+
+                        case "user":
+                        case "cliente":
+                            MessageBox.Show("Bienvenido Usuario");
+                            Farmacia f = new Farmacia();
+                            f.WindowState = FormWindowState.Maximized;
+                            f.Show();
+                            break;
+
+                        default:
+                            MessageBox.Show("Rol no reconocido: " + rol);
+                            return;
+                    }
+
+                    this.Hide();
                 }
                 catch (Exception ex)
                 {
