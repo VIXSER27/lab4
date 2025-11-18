@@ -22,16 +22,15 @@ namespace Laboratorio_4_DSIV
             InitializeComponent();
         }
 
-
-
         private void BtmAcceder_Click(object sender, EventArgs e)
         {
-            String usuario = txtUsuario.Text;
-            String contraseña = txtContraseña.Text;
+            string usuario = txtUsuario.Text.Trim();
+            string contraseña = txtContraseña.Text.Trim();
 
-            if (usuario.Length != "" || contraseña.Length != "")
+            // Validación correcta
+            if (usuario == "" || contraseña == "")
             {
-                MessageBox.Show("Ingrese los campos ");
+                MessageBox.Show("Ingrese todos los campos.");
                 return;
             }
 
@@ -40,28 +39,24 @@ namespace Laboratorio_4_DSIV
                 try
                 {
                     conexion.conectar();
-                    String query = "SELECT rol FROM usuarios WHERE usuario= @usuario AND contraseña=@contraseña";
 
-                }
+                    string query = "SELECT rol FROM usuarios WHERE usuario = @usuario AND contraseña = @contraseña";
 
-
-            using (NpgsqlCommand cmd = new NpgsqlConnection(Query, conexion.getMiconexion()))
-            {
-
-                    cmd.Parameters.AddWithValue("@usuario", usuario);
-                    cmd.Parameters.AddWithValue("@contraseña", contraseña);
-
-                    var resulatdo = cmd.ExecuteScalar();
-
-                    if (resulatdo == null)
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
                     {
-                        MessageBox.Show("Usuario o contraseña incorrectos");
-                        return;
-                    }
-                    else
-                    {
+                        cmd.Parameters.AddWithValue("@usuario", usuario);
+                        cmd.Parameters.AddWithValue("@contraseña", contraseña);
 
-                        string rol = resultado.ToString().ToLower;
+                        object resultado = cmd.ExecuteScalar();
+
+                        if (resultado == null)
+                        {
+                            MessageBox.Show("Usuario o contraseña incorrectos.");
+                            return;
+                        }
+
+                        string rol = resultado.ToString().ToLower();
+
                         switch (rol)
                         {
                             case "admin":
@@ -70,41 +65,36 @@ namespace Laboratorio_4_DSIV
                                 administrar.WindowState = FormWindowState.Maximized;
                                 administrar.Show();
                                 break;
+
                             case "user":
                                 MessageBox.Show("Bienvenido Usuario");
-
                                 Farmacia farmacia = new Farmacia();
                                 farmacia.WindowState = FormWindowState.Maximized;
                                 farmacia.Show();
                                 break;
+
                             default:
-                                MessageBox.Show("Rol no reconocido");
-                                break;
+                                MessageBox.Show("Rol no reconocido.");
+                                return;
                         }
+
                         this.Hide();
                     }
-
-            }
-                  catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Error de conexion a la base de datos: " + ex.Message);
-                    return;
+                    MessageBox.Show("Error al conectar a la base de datos: " + ex.Message);
                 }
             }
         }
 
-
-
-
-
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             showContraseña = !showContraseña;
-            txtContraseña.PasswordChar = '\0';
 
             if (showContraseña)
             {
+                txtContraseña.PasswordChar = '\0';
                 pictureBox1.Image = Properties.Resources.hide;
             }
             else
@@ -112,7 +102,6 @@ namespace Laboratorio_4_DSIV
                 txtContraseña.PasswordChar = '*';
                 pictureBox1.Image = Properties.Resources.show;
             }
-
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

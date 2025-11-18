@@ -18,14 +18,15 @@ namespace Laboratorio_4_DSIV
             InitializeComponent();
         }
 
-        private void txtRegistrar_Click(object sender, EventArgs e)
+        private void btnRegistrar_Click(object sender, EventArgs e)
         {
             string nuevoUsuario = txtNuevoUsuario.Text.Trim();
-            string nuevaContrasena = txtNuevaContraseña.Text.Trim;
+            string nuevaContrasena = txtNuevaContraseña.Text.Trim();
 
-            if (nuevoUsuario != "" || nuevaContrasena != "")
+            // Validación correcta
+            if (nuevoUsuario == "" || nuevaContrasena == "")
             {
-                MessageBox.Show"Complete todos los campos.");
+                MessageBox.Show("Complete todos los campos.");
                 return;
             }
 
@@ -35,10 +36,27 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string query =
-                        "INSERT INTO usuarios (usuario, contrasena, rol) VALUES (@usuario, @contrasena, 'cliente')";
+                    // Primero verificamos si el usuario ya existe
+                    string checkQuery = "SELECT COUNT(*) FROM usuarios WHERE usuario = @usuario";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
+                    using (NpgsqlCommand checkCmd = new NpgsqlCommand(checkQuery, conexion.getMiConexion()))
+                    {
+                        checkCmd.Parameters.AddWithValue("@usuario", nuevoUsuario);
+
+                        long existe = (long)checkCmd.ExecuteScalar();
+
+                        if (existe > 0)
+                        {
+                            MessageBox.Show("El usuario ya existe. Elija otro nombre.");
+                            return;
+                        }
+                    }
+
+                    // Registrar nuevo usuario
+                    string insertQuery =
+                        "INSERT INTO usuarios (usuario, contraseña, rol) VALUES (@usuario, @contrasena, 'user')";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(insertQuery, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", nuevoUsuario);
                         cmd.Parameters.AddWithValue("@contrasena", nuevaContrasena);
@@ -48,6 +66,7 @@ namespace Laboratorio_4_DSIV
 
                     MessageBox.Show("Usuario registrado correctamente.");
 
+                    // Redirigir a farmacia
                     Farmacia farmacia = new Farmacia();
                     farmacia.WindowState = FormWindowState.Maximized;
                     farmacia.Show();
