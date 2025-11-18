@@ -45,19 +45,21 @@
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(28, 150);
+            this.txtUsuario.Location = new System.Drawing.Point(37, 185);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.PasswordChar = '*';
-            this.txtUsuario.Size = new System.Drawing.Size(208, 26);
+            this.txtUsuario.Size = new System.Drawing.Size(276, 31);
             this.txtUsuario.TabIndex = 0;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(28, 94);
+            this.txtContraseña.Location = new System.Drawing.Point(37, 116);
+            this.txtContraseña.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtContraseña.Multiline = true;
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.Size = new System.Drawing.Size(208, 23);
+            this.txtContraseña.Size = new System.Drawing.Size(276, 27);
             this.txtContraseña.TabIndex = 1;
             // 
             // groupBox1
@@ -73,27 +75,31 @@
             this.groupBox1.Controls.Add(this.lblUsuario);
             this.groupBox1.Controls.Add(this.txtContraseña);
             this.groupBox1.Controls.Add(this.txtUsuario);
-            this.groupBox1.Location = new System.Drawing.Point(249, 74);
+            this.groupBox1.Location = new System.Drawing.Point(332, 91);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(280, 286);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(373, 352);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(25, 251);
+            this.linkLabel1.Location = new System.Drawing.Point(33, 309);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(69, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(85, 16);
             this.linkLabel1.TabIndex = 10;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Crear Cuenta";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(244, 144);
+            this.pictureBox1.Location = new System.Drawing.Point(325, 177);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(30, 32);
+            this.pictureBox1.Size = new System.Drawing.Size(40, 39);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
@@ -101,46 +107,52 @@
             // lblNCuenta
             // 
             this.lblNCuenta.AutoSize = true;
-            this.lblNCuenta.Location = new System.Drawing.Point(6, 227);
+            this.lblNCuenta.Location = new System.Drawing.Point(8, 279);
+            this.lblNCuenta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNCuenta.Name = "lblNCuenta";
-            this.lblNCuenta.Size = new System.Drawing.Size(126, 13);
+            this.lblNCuenta.Size = new System.Drawing.Size(154, 16);
             this.lblNCuenta.TabIndex = 7;
             this.lblNCuenta.Text = "¿No Tienes una Cuenta?";
             // 
             // BtmAcceder
             // 
-            this.BtmAcceder.Location = new System.Drawing.Point(97, 192);
+            this.BtmAcceder.Location = new System.Drawing.Point(129, 236);
+            this.BtmAcceder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BtmAcceder.Name = "BtmAcceder";
-            this.BtmAcceder.Size = new System.Drawing.Size(85, 32);
+            this.BtmAcceder.Size = new System.Drawing.Size(113, 39);
             this.BtmAcceder.TabIndex = 6;
             this.BtmAcceder.Text = "Acceder";
             this.BtmAcceder.UseVisualStyleBackColor = true;
+            this.BtmAcceder.Click += new System.EventHandler(this.BtmAcceder_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Georgia", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(48, 31);
+            this.label1.Location = new System.Drawing.Point(64, 38);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(197, 23);
+            this.label1.Size = new System.Drawing.Size(250, 29);
             this.label1.TabIndex = 5;
             this.label1.Text = "INICIAR SECCION ";
             // 
             // lblTitulo
             // 
             this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Location = new System.Drawing.Point(114, 54);
+            this.lblTitulo.Location = new System.Drawing.Point(152, 66);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(0, 13);
+            this.lblTitulo.Size = new System.Drawing.Size(0, 16);
             this.lblTitulo.TabIndex = 4;
             // 
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
             this.lblContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContraseña.Location = new System.Drawing.Point(6, 129);
+            this.lblContraseña.Location = new System.Drawing.Point(8, 159);
+            this.lblContraseña.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblContraseña.Name = "lblContraseña";
-            this.lblContraseña.Size = new System.Drawing.Size(100, 18);
+            this.lblContraseña.Size = new System.Drawing.Size(122, 24);
             this.lblContraseña.TabIndex = 3;
             this.lblContraseña.Text = "Contraseña:";
             // 
@@ -148,19 +160,21 @@
             // 
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(15, 73);
+            this.lblUsuario.Location = new System.Drawing.Point(20, 90);
+            this.lblUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(72, 18);
+            this.lblUsuario.Size = new System.Drawing.Size(87, 24);
             this.lblUsuario.TabIndex = 2;
             this.lblUsuario.Text = "Usuario:";
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Beige;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Login";
             this.Text = "Login";
             this.groupBox1.ResumeLayout(false);

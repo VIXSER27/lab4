@@ -15,7 +15,7 @@ namespace Laboratorio_4_DSIV
 {
     public partial class Login : Form
     {
-        private bool showContraseña = false;
+        private bool showContraseña = true;
 
         public Login()
         {
