@@ -27,7 +27,7 @@ namespace Laboratorio_4_DSIV
             string usuario = txtUsuario.Text.Trim();
             string contraseña = txtContraseña.Text.Trim();
 
-            // Validación correcta
+           
             if (usuario == "" || contraseña == "")
             {
                 MessageBox.Show("Ingrese todos los campos.");
@@ -40,12 +40,13 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string query = "SELECT rol FROM usuarios WHERE usuario = @usuario AND contraseña = @contraseña";
+                    string query =
+                        "SELECT rol FROM usuarios WHERE usuario = @usuario AND contrasena = @contrasena";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", usuario);
-                        cmd.Parameters.AddWithValue("@contraseña", contraseña);
+                        cmd.Parameters.AddWithValue("@contrasena", contraseña);
 
                         object resultado = cmd.ExecuteScalar();
 
@@ -67,6 +68,7 @@ namespace Laboratorio_4_DSIV
                                 break;
 
                             case "user":
+                            case "cliente":
                                 MessageBox.Show("Bienvenido Usuario");
                                 Farmacia farmacia = new Farmacia();
                                 farmacia.WindowState = FormWindowState.Maximized;
