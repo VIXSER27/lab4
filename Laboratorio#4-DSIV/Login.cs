@@ -24,11 +24,12 @@ namespace Laboratorio_4_DSIV
 
         private void BtmAcceder_Click(object sender, EventArgs e)
         {
-            string usuario = txtUsuario.Text.Trim();
+            string usuario = txtUsuario.Text;
+            string contraseña = txtContraseña.Text;
 
-            if (usuario == "")
+            if (usuario == "" || contraseña == "")
             {
-                MessageBox.Show("Ingrese el usuario.");
+                MessageBox.Show("Ingrese usuario y contraseña.");
                 return;
             }
 
@@ -38,45 +39,64 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string query = "SELECT rol FROM usuarios WHERE usuario = @usuario";
+                    string queryValidacion = "SELECT COUNT(*) FROM usuarios WHERE usuario = 'mayker' AND contraseña = '5577'";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryValidacion, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", usuario);
+                        cmd.Parameters.AddWithValue("@contraseña", contraseña);
 
-                        object rolObj = cmd.ExecuteScalar();
+                        object result = cmd.ExecuteScalar();
+                        Console.WriteLine(result);
+                        int existe = (result != null && result != DBNull.Value) ? Convert.ToInt32(result) : 0;
 
-                        if (rolObj == null)
+                        if (existe == 0)
                         {
-                            MessageBox.Show("Usuario no encontrado.");
+                            MessageBox.Show("Usuario o contraseña incorrectos.");
                             return;
                         }
-
-                        string rol = rolObj.ToString().ToLower();
-
-                        if (rol == "admin")
-                        {
-                            MessageBox.Show("Bienvenido Administrador");
-                            Administrar admin = new Administrar();
-                            admin.WindowState = FormWindowState.Maximized;
-                            admin.Show();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Bienvenido Usuario");
-                            Farmacia farmacia = new Farmacia();
-                            farmacia.WindowState = FormWindowState.Maximized;
-                            farmacia.Show();
-                        }
-
-                        this.Hide();
                     }
+
+                        string queryRol = "SELECT rol FROM usuarios WHERE usuario = @usuario";
+                        using (NpgsqlCommand cmdRo1 = new NpgsqlCommand(queryRol, conexion.getMiConexion()))
+                        {
+                            cmdRo1.Parameters.AddWithValue("@usuario", usuario);
+
+                            string rol = cmdRo1.ExecuteScalar().ToString().ToLower();
+
+
+                            if (rol == "admin" || rol == "farmaceutico")
+                            {
+                                MessageBox.Show("Bienvenido Administrador");
+                                Administrar admin = new Administrar();
+                                admin.WindowState = FormWindowState.Maximized;
+                                admin.Show();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Bienvenido Usuario");
+                                Farmacia farmacia = new Farmacia();
+                                farmacia.WindowState = FormWindowState.Maximized;
+                                farmacia.Show();
+                            }
+
+                            this.Hide();
+                        }
                 }
+
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error: " + ex.Message);
                 }
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CrearCuenta crearCuenta = new CrearCuenta();
+            crearCuenta.WindowState = FormWindowState.Maximized;
+            crearCuenta.Show();
+
         }
     }
 }

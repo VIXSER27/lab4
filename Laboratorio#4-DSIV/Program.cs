@@ -16,7 +16,7 @@ namespace Laboratorio_4_DSIV
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Administrar ());
+            Application.Run(new Form1 ());
         }
     }
 }
