@@ -75,7 +75,6 @@
             this.btnRegistrar.TabIndex = 7;
             this.btnRegistrar.Text = "Registrar";
             this.btnRegistrar.UseVisualStyleBackColor = false;
-            this.btnRegistrar.Click += new System.EventHandler(this.btnRegistrar_Click);
             // 
             // txtNuevaContraseña
             // 
@@ -90,7 +89,6 @@
             this.txtNuevoUsuario.Name = "txtNuevoUsuario";
             this.txtNuevoUsuario.Size = new System.Drawing.Size(168, 20);
             this.txtNuevoUsuario.TabIndex = 5;
-            this.txtNuevoUsuario.Click += new System.EventHandler(this.btnRegistrar_Click);
             // 
             // label5
             // 
