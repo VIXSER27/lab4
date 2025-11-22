@@ -31,8 +31,7 @@
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.lblNCuenta = new System.Windows.Forms.Label();
             this.BtmAcceder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,21 +39,19 @@
             this.lblContraseña = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(28, 150);
+            this.txtUsuario.Location = new System.Drawing.Point(37, 94);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.PasswordChar = '*';
             this.txtUsuario.Size = new System.Drawing.Size(208, 26);
             this.txtUsuario.TabIndex = 0;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(28, 94);
+            this.txtContraseña.Location = new System.Drawing.Point(37, 150);
             this.txtContraseña.Multiline = true;
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.Size = new System.Drawing.Size(208, 23);
@@ -63,15 +60,14 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.groupBox1.Controls.Add(this.linkLabel1);
-            this.groupBox1.Controls.Add(this.pictureBox1);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.txtContraseña);
             this.groupBox1.Controls.Add(this.lblNCuenta);
             this.groupBox1.Controls.Add(this.BtmAcceder);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.lblTitulo);
             this.groupBox1.Controls.Add(this.lblContraseña);
             this.groupBox1.Controls.Add(this.lblUsuario);
-            this.groupBox1.Controls.Add(this.txtContraseña);
             this.groupBox1.Controls.Add(this.txtUsuario);
             this.groupBox1.Location = new System.Drawing.Point(249, 74);
             this.groupBox1.Name = "groupBox1";
@@ -79,24 +75,15 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             // 
-            // linkLabel1
+            // button1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(25, 251);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(69, 13);
-            this.linkLabel1.TabIndex = 10;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Crear Cuenta";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(244, 144);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(30, 32);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
+            this.button1.Location = new System.Drawing.Point(18, 243);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(105, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Crear Cuenta";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblNCuenta
             // 
@@ -115,6 +102,7 @@
             this.BtmAcceder.TabIndex = 6;
             this.BtmAcceder.Text = "Acceder";
             this.BtmAcceder.UseVisualStyleBackColor = true;
+            this.BtmAcceder.Click += new System.EventHandler(this.BtmAcceder_Click);
             // 
             // label1
             // 
@@ -165,7 +153,6 @@
             this.Text = "Login";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -181,7 +168,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblNCuenta;
         private System.Windows.Forms.Button BtmAcceder;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Button button1;
     }
 }

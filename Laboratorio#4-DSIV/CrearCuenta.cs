@@ -23,7 +23,6 @@ namespace Laboratorio_4_DSIV
             string nuevoUsuario = txtNuevoUsuario.Text.Trim();
             string nuevaContrasena = txtNuevaContraseña.Text.Trim();
 
-            // Validación correcta
             if (nuevoUsuario == "" || nuevaContrasena == "")
             {
                 MessageBox.Show("Complete todos los campos.");
@@ -36,37 +35,19 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    // Primero verificamos si el usuario ya existe
-                    string checkQuery = "SELECT COUNT(*) FROM usuarios WHERE usuario = @usuario";
+                    string query =
+                        "INSERT INTO usuarios (usuario, contraseña, rol) VALUES (@usuario, @contraseña, 'cliente')";
 
-                    using (NpgsqlCommand checkCmd = new NpgsqlCommand(checkQuery, conexion.getMiConexion()))
-                    {
-                        checkCmd.Parameters.AddWithValue("@usuario", nuevoUsuario);
-
-                        long existe = (long)checkCmd.ExecuteScalar();
-
-                        if (existe > 0)
-                        {
-                            MessageBox.Show("El usuario ya existe. Elija otro nombre.");
-                            return;
-                        }
-                    }
-
-                    // Registrar nuevo usuario
-                    string insertQuery =
-                        "INSERT INTO usuarios (usuario, contraseña, rol) VALUES (@usuario, @contrasena, 'user')";
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(insertQuery, conexion.getMiConexion()))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", nuevoUsuario);
-                        cmd.Parameters.AddWithValue("@contrasena", nuevaContrasena);
+                        cmd.Parameters.AddWithValue("@contraseña", nuevaContrasena);
 
                         cmd.ExecuteNonQuery();
                     }
 
                     MessageBox.Show("Usuario registrado correctamente.");
 
-                    // Redirigir a farmacia
                     Farmacia farmacia = new Farmacia();
                     farmacia.WindowState = FormWindowState.Maximized;
                     farmacia.Show();
@@ -76,7 +57,10 @@ namespace Laboratorio_4_DSIV
                 {
                     MessageBox.Show("Error al registrar usuario: " + ex.Message);
                 }
+
+
             }
         }
     }
 }
+

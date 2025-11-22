@@ -7,12 +7,13 @@ namespace Laboratorio_4_DSIV
 {
     public partial class FormConsultarPedidos : Form
     {
-        // Usamos tu clase de conexión
         Class1 conexion = new Class1();
 
         public FormConsultarPedidos()
         {
             InitializeComponent();
+            // Asegúrate que el evento Load está enlazado (ver abajo en notas)
+            this.Load += FormConsultarPedidos_Load;
         }
 
         private void FormConsultarPedidos_Load(object sender, EventArgs e)
@@ -26,26 +27,32 @@ namespace Laboratorio_4_DSIV
             {
                 conexion.conectar();
 
+                // Consulta simple usando la tabla 'pedidos' que tú creaste
                 string query = @"
                     SELECT 
-                        p.id_pedido,
-                        c.nombre AS cliente,
-                        m.nombre AS medicamento,
-                        d.cantidad,
-                        d.total,
-                        p.fecha
-                    FROM pedidos p
-                    INNER JOIN pedido_detalle d ON p.id_pedido = d.id_pedido
-                    INNER JOIN clientes c ON c.id_cliente = p.id_cliente
-                    INNER JOIN medicamentos m ON m.id_medicamento = d.id_medicamento
-                    ORDER BY p.fecha DESC;
+                        id_pedido,
+                        cliente,
+                        medicamento,
+                        cantidad,
+                        total,
+                        fecha
+                    FROM pedidos
+                    ORDER BY fecha DESC;
                 ";
 
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conexion.getMiConexion());
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
+                // Depuración: cuántas filas llegaron
+                MessageBox.Show("Filas obtenidas: " + dt.Rows.Count, "Depuración");
+
+                // Asegúrate que el DataGridView en el diseñador se llame exactamente dgvPedidos
+                dgvPedidos.AutoGenerateColumns = true;
                 dgvPedidos.DataSource = dt;
+
+                // Ajuste visual
+                dgvPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
@@ -60,8 +67,14 @@ namespace Laboratorio_4_DSIV
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
-            Administrar f = new Administrar(); // Tu formulario principal del farmacéutico
+            Administrar f = new Administrar();
             f.Show();
         }
+
+
+
+
     }
 }
+
+
