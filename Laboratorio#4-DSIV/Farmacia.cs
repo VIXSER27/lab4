@@ -130,7 +130,7 @@ namespace Laboratorio_4_DSIV
 
             card.Controls.Add(pic);
 
-            // Nombre
+         
             Label lblNombre = new Label();
             lblNombre.Text = nombre;
             lblNombre.Font = new Font("Segoe UI", 11, FontStyle.Bold);
