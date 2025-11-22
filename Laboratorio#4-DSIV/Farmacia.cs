@@ -73,7 +73,7 @@ namespace Laboratorio_4_DSIV
             card.BackColor = Color.White;
             card.Padding = new Padding(8);
 
-            // Sombra suave
+           
             card.Paint += (s, e) =>
             {
                 ControlPaint.DrawBorder(e.Graphics, card.ClientRectangle,
@@ -83,11 +83,11 @@ namespace Laboratorio_4_DSIV
                     Color.LightGray, 2, ButtonBorderStyle.Solid);
             };
 
-            // Hover del panel
+        
             card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(245, 245, 245);
             card.MouseLeave += (s, e) => card.BackColor = Color.White;
 
-            // Imagen
+       
             PictureBox pic = new PictureBox();
             pic.Width = 200;
             pic.Height = 150;
@@ -100,7 +100,7 @@ namespace Laboratorio_4_DSIV
             {
                 if (!string.IsNullOrWhiteSpace(imagenPath))
                 {
-                    // Construir ruta completa a la carpeta Img del proyecto
+             
                     string rutaImagen = Path.Combine(Application.StartupPath, "Img", imagenPath);
 
                     if (File.Exists(rutaImagen))
@@ -109,7 +109,7 @@ namespace Laboratorio_4_DSIV
                     }
                     else
                     {
-                        // Imagen por defecto si no se encuentra
+                   
                         pic.Image = Image.FromFile(
                             Path.Combine(Application.StartupPath, "Img", "imagen_no_disponible.png")
                         );
@@ -141,7 +141,7 @@ namespace Laboratorio_4_DSIV
             lblNombre.TextAlign = ContentAlignment.MiddleCenter;
             card.Controls.Add(lblNombre);
 
-            // Precio
+           
             Label lblPrecio = new Label();
             lblPrecio.Text = $"${precio:F2}";
             lblPrecio.Font = new Font("Segoe UI", 10, FontStyle.Bold);
@@ -152,7 +152,7 @@ namespace Laboratorio_4_DSIV
             lblPrecio.TextAlign = ContentAlignment.MiddleCenter;
             card.Controls.Add(lblPrecio);
 
-            // Stock
+           
             Label lblStock = new Label();
             lblStock.Text = $"Stock disponible: {cantidad}";
             lblStock.Font = new Font("Segoe UI", 9);
@@ -163,7 +163,7 @@ namespace Laboratorio_4_DSIV
             lblStock.ForeColor = Color.Gray;
             card.Controls.Add(lblStock);
 
-            // Selector cantidad
+            
             NumericUpDown nudCantidad = new NumericUpDown();
             nudCantidad.Minimum = 1;
             nudCantidad.Maximum = cantidad;
@@ -172,7 +172,7 @@ namespace Laboratorio_4_DSIV
             nudCantidad.Left = 75;
             card.Controls.Add(nudCantidad);
 
-            // Botón agregar
+           
             Button btn = new Button();
             btn.Text = "Agregar";
             btn.Font = new Font("Segoe UI", 9, FontStyle.Bold);
@@ -185,7 +185,7 @@ namespace Laboratorio_4_DSIV
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
 
-            // Hover botón
+           
             btn.MouseEnter += (s, e) => btn.BackColor = Color.FromArgb(0, 120, 70);
             btn.MouseLeave += (s, e) => btn.BackColor = Color.FromArgb(0, 150, 90);
 
