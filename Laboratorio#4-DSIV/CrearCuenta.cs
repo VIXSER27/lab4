@@ -17,8 +17,7 @@ namespace Laboratorio_4_DSIV
         {
             InitializeComponent();
         }
-
-        private void btnRegistrar_Click(object sender, EventArgs e)
+        private void btmRegistrar_Click(object sender, EventArgs e)
         {
             string nuevoUsuario = txtNuevoUsuario.Text.Trim();
             string nuevaContrasena = txtNuevaContraseña.Text.Trim();
@@ -36,12 +35,12 @@ namespace Laboratorio_4_DSIV
                     conexion.conectar();
 
                     string query =
-                        "INSERT INTO usuarios (usuario, contraseña, rol) VALUES (@usuario, @contraseña, 'cliente')";
+                        "INSERT INTO usuarios (usuario, contrasena, rol) VALUES (@usuario, @contrasena, 'cliente')";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", nuevoUsuario);
-                        cmd.Parameters.AddWithValue("@contraseña", nuevaContrasena);
+                        cmd.Parameters.AddWithValue("@contrasena", nuevaContrasena);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -63,4 +62,3 @@ namespace Laboratorio_4_DSIV
         }
     }
 }
-

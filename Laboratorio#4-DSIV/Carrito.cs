@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Npgsql;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Laboratorio_4_DSIV
 {
@@ -39,7 +40,7 @@ namespace Laboratorio_4_DSIV
                 card.BackColor = Color.White;
                 card.Padding = new Padding(10);
 
-                // Sombra ligera
+               
                 card.Paint += (s, e) =>
                 {
                     ControlPaint.DrawBorder(e.Graphics, card.ClientRectangle,
@@ -160,6 +161,22 @@ namespace Laboratorio_4_DSIV
                             cmd.Parameters.AddWithValue("@id", item.Id);
                             cmd.ExecuteNonQuery();
                         }
+                        // REGISTRAR PEDIDO
+                        MessageBox.Show("Usuario logueado: " + Sesion.UsuarioActual);
+                        string insertPedido = @"INSERT INTO pedidos (usuario, medicamento, cantidad, total, fecha) 
+                        VALUES (@usuario, @medicamento, @cantidad, @total, NOW());";
+
+                        using (NpgsqlCommand cmdPed = new NpgsqlCommand(insertPedido, conexion.getMiConexion()))
+                        {
+                            cmdPed.Parameters.AddWithValue("@usuario", Sesion.UsuarioActual);
+                            cmdPed.Parameters.AddWithValue("@medicamento", item.Nombre);
+                            cmdPed.Parameters.AddWithValue("@cantidad", item.Cantidad);
+                            cmdPed.Parameters.AddWithValue("@total", item.Subtotal);
+
+                            cmdPed.ExecuteNonQuery();
+                        }
+
+
                     }
 
                     MessageBox.Show("Compra realizada correctamente.");

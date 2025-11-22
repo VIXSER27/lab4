@@ -12,7 +12,7 @@ namespace Laboratorio_4_DSIV
         public FormConsultarPedidos()
         {
             InitializeComponent();
-            // Asegúrate que el evento Load está enlazado (ver abajo en notas)
+         
             this.Load += FormConsultarPedidos_Load;
         }
 
@@ -27,11 +27,10 @@ namespace Laboratorio_4_DSIV
             {
                 conexion.conectar();
 
-                // Consulta simple usando la tabla 'pedidos' que tú creaste
                 string query = @"
                     SELECT 
                         id_pedido,
-                        cliente,
+                        usuario,
                         medicamento,
                         cantidad,
                         total,
@@ -47,11 +46,11 @@ namespace Laboratorio_4_DSIV
                 // Depuración: cuántas filas llegaron
                 MessageBox.Show("Filas obtenidas: " + dt.Rows.Count, "Depuración");
 
-                // Asegúrate que el DataGridView en el diseñador se llame exactamente dgvPedidos
+             
                 dgvPedidos.AutoGenerateColumns = true;
                 dgvPedidos.DataSource = dt;
 
-                // Ajuste visual
+               
                 dgvPedidos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)

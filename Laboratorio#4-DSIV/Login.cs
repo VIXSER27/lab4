@@ -15,8 +15,6 @@ namespace Laboratorio_4_DSIV
 {
     public partial class Login : Form
     {
-        private bool showContraseña = true;
-
         public Login()
         {
             InitializeComponent();
@@ -39,54 +37,75 @@ namespace Laboratorio_4_DSIV
                 {
                     conexion.conectar();
 
-                    string queryValidacion = "SELECT COUNT(*) FROM usuarios WHERE usuario = 'mayker' AND contraseña = '5577'";
+                    string query = "SELECT rol FROM usuarios " +
+                        " WHERE usuario = @usuario AND contrasena = @contrasena ";
 
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(queryValidacion, conexion.getMiConexion()))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conexion.getMiConexion()))
                     {
                         cmd.Parameters.AddWithValue("@usuario", usuario);
-                        cmd.Parameters.AddWithValue("@contraseña", contraseña);
+                        cmd.Parameters.AddWithValue("@contrasena", contraseña);
 
-                        object result = cmd.ExecuteScalar();
-                        Console.WriteLine(result);
-                        int existe = (result != null && result != DBNull.Value) ? Convert.ToInt32(result) : 0;
-
-                        if (existe == 0)
+                        using (NpgsqlDataReader dr = cmd.ExecuteReader())
                         {
-                            MessageBox.Show("Usuario o contraseña incorrectos.");
-                            return;
-                        }
-                    }
+                            if (!dr.Read())
+                            {
+                                MessageBox.Show("Usuario o contraseña incorrectos.");
+                                return;
+                            }
 
-                        string queryRol = "SELECT rol FROM usuarios WHERE usuario = @usuario";
-                        using (NpgsqlCommand cmdRo1 = new NpgsqlCommand(queryRol, conexion.getMiConexion()))
-                        {
-                            cmdRo1.Parameters.AddWithValue("@usuario", usuario);
-
-                            string rol = cmdRo1.ExecuteScalar().ToString().ToLower();
-
+                            string rol = dr["rol"].ToString().ToLower();
 
                             if (rol == "admin" || rol == "farmaceutico")
                             {
                                 MessageBox.Show("Bienvenido Administrador");
-                                Administrar admin = new Administrar();
-                                admin.WindowState = FormWindowState.Maximized;
-                                admin.Show();
+                                new Administrar().Show();
                             }
                             else
                             {
                                 MessageBox.Show("Bienvenido Usuario");
+
+                            
+                                Sesion.UsuarioActual = usuario;
+
                                 Farmacia farmacia = new Farmacia();
                                 farmacia.WindowState = FormWindowState.Maximized;
                                 farmacia.Show();
                             }
 
+
                             this.Hide();
                         }
+                    }
                 }
-
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error: " + ex.Message);
+
+                    string queryRol = "SELECT rol FROM usuarios WHERE usuario = @usuario";
+
+                    using (NpgsqlCommand cmdRo1 = new NpgsqlCommand(queryRol, conexion.getMiConexion()))
+                    {
+                        cmdRo1.Parameters.AddWithValue("@usuario", usuario);
+                        string rol = cmdRo1.ExecuteScalar().ToString().ToLower();
+
+                        if (rol == "admin" || rol == "farmaceutico")
+                        {
+                            MessageBox.Show("Bienvenido Administrador");
+                            Administrar admin = new Administrar();
+                            admin.WindowState = FormWindowState.Maximized;
+                            admin.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Bienvenido Usuario");
+                            Sesion.UsuarioActual = usuario;
+                            Farmacia farmacia = new Farmacia();
+                            farmacia.WindowState = FormWindowState.Maximized;
+                            farmacia.Show();
+                        }
+
+                        this.Hide();
+                    }
                 }
             }
         }
@@ -96,7 +115,6 @@ namespace Laboratorio_4_DSIV
             CrearCuenta crearCuenta = new CrearCuenta();
             crearCuenta.WindowState = FormWindowState.Maximized;
             crearCuenta.Show();
-
         }
     }
 }
